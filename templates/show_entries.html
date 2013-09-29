@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>fileName:
+        <dd><input type=text size=30 name=fileName>
+        <dt>description:
+        <dd><textarea name=description rows=5 cols=40></textarea>
+        <dt>publish:
+        <dd><input type=text size=30 name=publish>
+        <dt>author:
+        <dd><input type=text size=30 name=author>
+        <dt>length:
+        <dd><input type=text size=30 name=length>
+        <dd><input type=submit value=ADD>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2><a href="{{ url_for('download') + '?fileName=' + entry.fileName | safe }} ">{{ entry.fileName }}</a></h2>
+        {{ entry.description|safe }}
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}

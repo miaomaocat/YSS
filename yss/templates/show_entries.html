@@ -1,8 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
   {% if session.logged_in %}
-    <div>test</div>
-    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+    <form action="{{ url_for('addContent') }}" method=post class=add-entry>
       <dl>
         <dt>fileName:
         <dd><input type=text size=30 name=fileName>
@@ -20,8 +19,8 @@
   {% endif %}
   <ul class=entries>
   {% for entry in entries %}
-    <li><h2><a href="{{ url_for('download') + '?fileName=' + entry.fileName | safe }} ">{{ entry.fileName }}</a></h2>
-        {{ entry.desc }}
+    <li><h2><a href="{{ url_for('showContent', id = entry.contentId) }} ">{{ entry.name }}</a></h2>
+        {{ entry.desc|safe }}
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}

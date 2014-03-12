@@ -1,12 +1,45 @@
-drop table if exists books;
-create table books(
+drop table if exists channel;
+create table channel (
   id integer primary key autoincrement,
-  fileName text not null,
+  channelName text not null
+);
+
+drop table if exists collections;
+create table collections(
+  id integer primary key autoincrement,
+  collectionName text not null,
+  collectionType integer,
+  contentList text
+);
+
+drop table if exists contents;
+create table contents(
+  id integer primary key autoincrement,
+  contentName text not null,
   description text not null,
   publish text not null,
   author text not null,
-  length integer
+  length integer,
+  downloadCount integer,
+  relatedContentList text
 );
+
+drop table if exists chapters;
+create table chapters  (
+  id integer primary key autoincrement,
+  ContentId integer,
+  chapterName text,
+  chapterStatus integer
+);
+
+drop table if exists incomings;
+create table incomings (
+  id integer primary key autoincrement,
+  userId integer,
+  chapterId integer,
+  amount  float
+);
+
 drop table if exists users;
 create table users (
   id integer primary key autoincrement,
@@ -16,10 +49,4 @@ create table users (
   phoneNumber text not null,
   email text not null,
   birthDay text not null
-);
-
-drop table if exists recomandBooks;
-create table recomandBooks (
-  id integer primary key autoincrement,
-  bookId integer    
 );

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+<title>aaa</title>
+{% block body %}
+<h2><a href="{{ url_for('showContent', id = id) }} ">回到书籍</a></h2>
+<form action="{{ url_for('showRelateContent', id = id) }}" method=post class=add-entry>
+  <ul class=entries>
+  {% for entry in entries %}
+      {% if entry.selected %}
+      <li><h2><input name= {{"%s" % entry.contentId}}  type="checkbox" checked /> <a href="{{ url_for('showContent', id = entry.contentId) }} ">{{ entry.name }}</a></h2>
+      {% else %}
+      <li><h2><input name= {{"%s" % entry.contentId}}  type="checkbox" /> <a href="{{ url_for('showContent', id = entry.contentId) }} ">{{ entry.name }}</a></h2>
+      {% endif %}
+  {% endfor %}
+  </ul>
+  <p style="text-align:center;"><input type="submit" value="提交" /></p>
+</form>
+{% endblock %}

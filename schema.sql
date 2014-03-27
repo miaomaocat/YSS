@@ -29,7 +29,8 @@ create table chapters  (
   id integer primary key autoincrement,
   ContentId integer,
   chapterName text,
-  chapterStatus integer
+  chapterStatus integer,
+  chapterFileName text
 );
 
 drop table if exists incomings;

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from yss.controller.Common import *
 
 @app.route('/login', methods=['GET', 'POST'])

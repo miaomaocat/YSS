@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+<h2><a href="{{ url_for('showContents') }} ">回到书籍列表</a></h2>
   {% if session.logged_in %}
     <p>
     <div>
@@ -12,6 +13,10 @@
         </ul>
     </div>
     </p>
+    <h2>相关书籍</h2>
+    <div>
+        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">点我编辑相关书籍</a>
+    </div>
     <h2>添加章节</h2>
     <form action="{{ url_for('addChapter') }}" method=post class=add-entry>
       <dl>
@@ -27,7 +32,7 @@
   {% endif %}
   <ul class=chapters>
   {% for chapter in chapters %}
-    <li><h2>{{ chapter.chapterName | safe }}</h2></li>
+    <li><h2><a href = "{{ url_for('showChapter', id = chapter.chapterId) }} ">{{ chapter.chapterName | safe }}</h2></li>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}

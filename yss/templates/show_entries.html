@@ -1,17 +1,18 @@
 {% extends "layout.html" %}
 {% block body %}
+    <h1>有声书项目主页</h1>
   {% if session.logged_in %}
     <form action="{{ url_for('addContent') }}" method=post class=add-entry>
       <dl>
-        <dt>fileName:
+        <dt>书籍名:
         <dd><input type=text size=30 name=fileName>
-        <dt>description:
+        <dt>简介:
         <dd><textarea name=description rows=5 cols=40></textarea>
-        <dt>publish:
+        <dt>出版社:
         <dd><input type=text size=30 name=publish>
-        <dt>author:
+        <dt>作者:
         <dd><input type=text size=30 name=author>
-        <dt>length:
+        <dt>时长:
         <dd><input type=text size=30 name=length>
         <dd><input type=submit value=ADD>
       </dl>

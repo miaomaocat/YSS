@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from yss.model.BaseModel import *
 from flask import g, request
 import sqlite3
@@ -39,22 +40,27 @@ class Content(BaseModel):
         self.publish = array[3]
         self.author = array[4]
         self.length = array[5]
-        # todo add this two feild
+        self.relatedContentList = array[6]
+        # todo add this feild
         self.downloadCount = 0;
-        self.relatedContentList = ""
 
     def __repr__(self):
-        return "--- <Content('%s', '%s', '%s')>" % (self.name, self.desc, self.publish)
+        return "----- <Content('%s', '%s', '%s', '%s')>" % (self.name, self.desc, self.publish, self.relatedContentList)
 
     def save (self):
         print "saved content"
-        g.db.execute('insert into contents (contentName, description, publish, author, length, downloadCount, relatedContentList) values (?, ?, ?, ?, ?, ?, ?)',
+        if hasattr(self, 'contentId'):
+            g.db.execute('update contents set contentName = ?, description = ?, publish = ?, author = ?, length = ?, downloadCount = ?, relatedContentList= ? where id = ?',
+                       [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList, self.contentId])
+        else:
+            g.db.execute('insert into contents (contentName, description, publish, author, length, downloadCount, relatedContentList) values (?, ?, ?, ?, ?, ?, ?)',
                        [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList])
         g.db.commit()
 
+
     @staticmethod
     def contentWithId(contentId):
-        query = 'select id, contentName, description, publish, author, length from contents where id = \'' + contentId + '\' order by id desc'
+        query = 'select id, contentName, description, publish, author, length, relatedContentList from contents where id = \'' + contentId + '\' order by id desc'
         print query
         cur = g.db.execute(query)
         contents = list()
@@ -70,8 +76,8 @@ class Content(BaseModel):
 
     @staticmethod
     def readFromDatabase():
-        query = 'select id, contentName, description, publish, author, length from contents order by id desc'
-        cur = g.db.execute('select id, contentName, description, publish, author, length from contents order by id desc')
+        query = 'select id, contentName, description, publish, author, length, relatedContentList  from contents order by id desc'
+        cur = g.db.execute(query)
         contents = list()
         for row in cur.fetchall():
             content = Content()

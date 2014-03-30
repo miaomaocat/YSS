@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
+
 from yss.model.BaseModel import *
-from flask import g, request
-import sqlite3
 
 class Chapter(BaseModel):
 

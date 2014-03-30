@@ -9,6 +9,7 @@ create table collections(
   id integer primary key autoincrement,
   collectionName text not null,
   collectionType integer,
+  collectionImageUrl text,
   contentList text
 );
 

@@ -4,8 +4,8 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
 <body>
 <div class='navigationbar'>
-    <a href="#">专题</a>
-    <a href="#">书籍</a>
+    <a href="{{ url_for('showCollections') }}">专题</a>
+    <a href="{{ url_for('showContents') }}">书籍</a>
 </div>
 <div class=page>
   <div class=metanav>
@@ -16,7 +16,7 @@
   {% endif %}
   </div>
   {% for message in get_flashed_messages() %}
-    <div class=flash>{{ message}}<div>
+    <div class=flash>{{ message | safe }}<div>
   {% endfor %}
   {% block body %}{% endblock %}
 </div>

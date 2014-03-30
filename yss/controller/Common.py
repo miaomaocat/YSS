@@ -5,3 +5,4 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 from yss.model.Content import *
 from yss.model.Chapter import *
+from yss.model.Collection import *

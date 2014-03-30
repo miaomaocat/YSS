@@ -2,7 +2,7 @@
 from yss.controller.Common import *
 
 @app.route('/')
-def showContents():
+def showContents():        
     entries = Content.readFromDatabase()
     return render_template('show_entries.html', entries=entries)
 

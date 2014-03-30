@@ -40,6 +40,8 @@ import yss.controller.apis
 import yss.controller.ContentController
 import yss.controller.ChapterController
 import yss.controller.UserController
+import yss.controller.UserController
+import yss.controller.CollectionController
 
 if __name__ == '__main__':
     app.run()

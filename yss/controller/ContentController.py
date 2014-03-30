@@ -9,6 +9,19 @@ def showContents():
 @app.route('/content/<id>', methods=['GET'])
 def showContent(id=None):
     content = Content.contentWithId(id)
+    relateList = content.relatedContentList
+    relateIds = relateList.split(',')
+
+    relateNames = list()
+    for id in relateIds:
+        relateContent = Content.contentWithId(id)
+        relateNames.append(relateContent.name)
+
+    relateContentsDesc = ''
+    if relateNames.count > 0:
+        relateContentsDesc = ','.join(relateNames)
+    content.relateContentsDesc = relateContentsDesc;
+
     chapters = Chapter.chaptersWithContentId(id)
     return render_template('content.html', content=content, chapters=chapters)
 
@@ -36,10 +49,8 @@ def showRelateContent(id=None):
             print content.contentId
             contentId = "%s" % content.contentId
             if contentId in relateIds:
-                print 'true'
                 content.selected = True
             else:
-                print 'false'
                 content.selected = False
 
         title = u"%s:相关书籍 %s" %  (content.name, id)

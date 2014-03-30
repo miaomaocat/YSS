@@ -3,6 +3,10 @@
 <title>{{title|safe}}</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
 <body>
+<div class='navigationbar'>
+    <a href="#">专题</a>
+    <a href="#">书籍</a>
+</div>
 <div class=page>
   <div class=metanav>
   {% if not session.logged_in %}

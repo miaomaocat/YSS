@@ -15,7 +15,7 @@
     </p>
     <h2>相关书籍</h2>
     <div>
-        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">点我编辑相关书籍</a>
+        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">{{content.relateContentsDesc | safe}}（点击编辑）</a>
     </div>
     <h2>添加章节</h2>
     <form action="{{ url_for('addChapter') }}" method=post class=add-entry>

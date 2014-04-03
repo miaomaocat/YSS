@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>专题</h1>
+  {% if session.logged_in %}
+    <h2>添加专题</h2>
+    <form action="{{ url_for('addCollection') }}" method=post class=add-entry>
+      <dl>
+        <dt>专题名:
+        <dd><input type=text size=30 name=collectionName>
+        <dt>封面地址:
+        <dd><input type=text size=30 name=imageUrl>
+        <dd><input type=submit value='添加'>
+      </dl>
+    </form>
+  {% endif %}
+  <h2>专题列表</h2>
+  <ul class=entries>
+  {% for collection in collections %}
+    <li><h2><a href="{{ url_for('showCollection', id=collection.collectionId) }}">{{ collection.name }}</a></h2></li>
+  {% else %}
+    <li><em>还没有专题</em></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

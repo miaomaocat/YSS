@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>编辑书籍</h1>
+<h2><a href="{{ url_for('showCollections') }} ">回到专题列表</a></h2>
+  {% if session.logged_in %}
+    <p>
+    <div>
+        <h2>专题信息</h2>
+        <ul class=chapters>
+            <li><span>名称：</span><span>{{ collection.name | safe }}</span></li>
+        </ul>
+    </div>
+    </p>
+    <h2>书籍列表</h2>
+    <div>
+  {% for content in collection.cotents %}
+      <ul>
+          <li>{{ content.name | safe }}</li>
+      </ul>
+  {% endfor %}
+      <h2><a href="#">点击编辑</a></h2>
+    </div>
+
+  {% endif %}
+{% endblock %}

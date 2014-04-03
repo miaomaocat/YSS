@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2><a href="{{ url_for('showCollection', id = collection.collectionId) }} ">回到专题</a></h2>
+<form action="{{ url_for('showCotentsUnderCollection', id = id) }}" method=post class=add-entry>
+  <br>
+  <input type=text size=60 name=collectionName value="{{ collection.name }}">
+  <br>
+  <ul class=entries>
+  {% for content in contents %}
+      {% if content.selected %}
+      <li><h2><input name= {{"%s" % content.contentId}}  type="checkbox" checked /> <a href="{{ url_for('showContent', id = content.contentId) }} ">{{ content.name }}</a></h2>
+      {% else %}
+      <li><h2><input name= {{"%s" % content.contentId}}  type="checkbox" /> <a href="{{ url_for('showContent', id = content.contentId) }} ">{{ content.name }}</a></h2>
+      {% endif %}
+  {% endfor %}
+  </ul>
+  <p style="text-align:center;"><input type="submit" value="提交" /></p>
+</form>
+{% endblock %}

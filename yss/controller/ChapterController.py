@@ -12,3 +12,10 @@ def addChapter():
 def showChapter(id=None):
     chapter = Chapter.chapterWithId(id)
     return render_template('chapter.html', chapter=chapter)
+
+@app.route('/delete_chapter/<id>')
+def deleteChapter(id=None):
+    chapter = Chapter.chapterWithId(id)
+    contentId = chapter.contentId
+    chapter.delete()
+    return redirect(url_for('showContent', id = contentId))

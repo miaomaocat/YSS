@@ -2,9 +2,16 @@
 from yss.controller.Common import *
 
 @app.route('/')
-def showContents():        
+def showContents():
     entries = Content.readFromDatabase()
     return render_template('show_entries.html', entries=entries)
+
+@app.route('/delete_content/<id>')
+def deleteContent(id=None):
+    content = Content.contentWithId(id)
+    content.delete()
+    Chapter.deleteChaptersWithContentId(id)
+    return redirect(url_for('showContents'))
 
 @app.route('/content/<id>', methods=['GET'])
 def showContent(id=None):
@@ -13,9 +20,10 @@ def showContent(id=None):
     relateIds = relateList.split(',')
 
     relateNames = list()
-    for id in relateIds:
-        relateContent = Content.contentWithId(id)
-        relateNames.append(relateContent.name)
+    for cotentId in relateIds:
+        if cotentId != u'':
+            relateContent = Content.contentWithId(cotentId)
+            relateNames.append(relateContent.name)
 
     relateContentsDesc = ''
     if relateNames.count > 0:
@@ -24,6 +32,22 @@ def showContent(id=None):
 
     chapters = Chapter.chaptersWithContentId(id)
     return render_template('content.html', content=content, chapters=chapters)
+
+@app.route('/edit_content/<id>', methods=['POST','GET'])
+def editContentInfo(id=None):
+    if not session.get('logged_in'):
+        abort(401)
+
+    content = Content.contentWithId(id)
+    if request.method == 'POST':
+        form = request.form
+        content.name = form['contentName']
+        content.author = form['contentAuthor']
+        content.desc = form['contentDesc']
+        content.save()
+        return redirect(url_for('showContent', id = id))
+    else:
+        return render_template('contentInfo.html', content=content)
 
 @app.route('/add_content', methods=['POST'])
 def addContent():
@@ -65,4 +89,4 @@ def showRelateContent(id=None):
         relateDesc = ','.join(relateItems)
         content.relatedContentList = relateDesc;
         content.save();
-        return redirect(url_for('showRelateContent', id = id))
+        return redirect(url_for('showContent', id = id))

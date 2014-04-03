@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2><a href="{{ url_for('showContent', id = content.contentId) }} ">回到书籍列表</a></h2>
+<p>
+<div>
+    <h2>编辑书籍信息</h2>
+    <form action = "{{ url_for('editContentInfo', id=content.contentId) }}"  method=post>
+    <ul class=chapters>
+        <li><span>名称：</span>
+            <input type=text size=60 name=contentName value="{{ content.name | safe }}">
+        </li>
+        <li><span>作者：</span>
+            <input type=text size=60 name=contentAuthor value="{{ content.author | safe }}">
+        </li>
+        <li><span>简介：</span>
+            <input type=text size=60 name=contentDesc value="{{ content.desc | safe }}">
+        </li>
+        <li><span>长度：</span>
+            <input type=text size=60 name=contentLength value="{{ content.length | safe }}">
+        </li>
+        <dd><input type=submit value="保存">
+    </ul>
+    </form>
+</div>
+</p>
+{% endblock %}

@@ -20,12 +20,24 @@ class Chapter(BaseModel):
         self.chapterName = request.form['chapterName']
         self.chapterStatus = request.form['chapterStatus']
 
+    def delete(self):
+        sql = 'delete from chapters where id = %d;' % self.chapterId
+        g.db.execute(sql)
+        g.db.commit()
+
     def __repr__(self):
         return "--- <chapter('%s')>" % (self.chapterName)
 
     @staticmethod
+    def deleteChaptersWithContentId(contentId):
+        sql = 'delete from chapters where contentId = %s;' % contentId
+        g.db.execute(sql)
+        g.db.commit()
+
+    @staticmethod
     def chaptersWithContentId(contentId):
         query = 'select id, chapterName, chapterStatus, ContentId, chapterFileName from chapters where contentId = ' + contentId + ' order by id desc'
+        print query
         cur = g.db.execute(query)
         chapters = list()
         for row in cur.fetchall():
@@ -45,10 +57,10 @@ class Chapter(BaseModel):
             chapter.__setFromArray(row)
             chapters.append(chapter)
 
-        if chapters.count > 0:
+        if len(chapters) > 0:
             return chapters[0]
         else:
-            return nil;
+            return None;
 
     def save (self):
         print "saved chapter"

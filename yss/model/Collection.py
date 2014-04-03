@@ -35,6 +35,11 @@ class Collection(BaseModel):
                        [self.name, self.type, self.imageUrl, self.contentList])
         g.db.commit()
 
+    def delete(self):
+        sql = 'delete from collections where id = %d;' % self.collectionId
+        g.db.execute(sql)
+        g.db.commit()
+
     @staticmethod
     def collectionWithId(collectionId):
         query = Collection.queryStringWithId % collectionId
@@ -47,10 +52,10 @@ class Collection(BaseModel):
             collection.__setFromArray(row)
             collections.append(collection)
 
-        if collections.count > 0:
+        if len(collections) > 0:
             return collections[0]
         else:
-            return nil;
+            return None;
 
     @staticmethod
     def readFromDatabase():

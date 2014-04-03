@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h1>专题</h1>
   {% if session.logged_in %}
     <h2>添加专题</h2>
     <form action="{{ url_for('addCollection') }}" method=post class=add-entry>

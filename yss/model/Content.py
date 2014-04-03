@@ -56,6 +56,10 @@ class Content(BaseModel):
                        [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList])
         g.db.commit()
 
+    def delete(self):
+        sql = 'delete from contents where id = %d;' % self.contentId
+        g.db.execute(sql)
+        g.db.commit()
 
     @staticmethod
     def contentWithId(contentId):
@@ -68,10 +72,10 @@ class Content(BaseModel):
             content.__setFromArray(row)
             contents.append(content)
 
-        if contents.count > 0:
+        if len(contents) > 0:
             return contents[0]
         else:
-            return nil;
+            return None;
 
     @staticmethod
     def readFromDatabase():

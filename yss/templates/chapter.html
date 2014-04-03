@@ -1,41 +1,23 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1>编辑书籍</h1>
-<h2><a href="{{ url_for('showContents') }} ">回到书籍列表</a></h2>
   {% if session.logged_in %}
     <p>
     <div>
-        <h2>内容信息</h2>
+        <h2>章节信息</h2>
         <ul class=chapters>
-            <li><span>名称：</span><span>{{ content.name | safe }}</span></li>
-            <li><span>作者：</span><span>{{ content.author | safe }}</span></li>
-            <li><span>简介：</span><span>{{ content.desc | safe }}</span></li>
-            <li><span>长度：</span><span>{{ content.length | safe }}</span></li>
+            <li><span>名称：</span><span>{{ chapter.chapterName | safe }}</span></li>
+            <li><span>文件：</span><span><a href="{{ url_for('download', chapterId = chapter.chapterId) }}">{{ chapter.chapterFileName | safe }}</a></span></li>
         </ul>
+        <div style='color:red'>(!注意，重新上传会覆盖旧文件，上传的文件名里不能包含中文)</div>
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" /><br />
+            <input type="hidden" name="chapterName" value="{{ chapter.chapterName | safe }}">
+            <input type="hidden" name="chapterId" value="{{ chapter.chapterId | safe }}">
+            <input type="hidden" name="contentId" value="{{ chapter.contentId | safe }}">
+            <input type="submit" value="上传" />
+        </form>
     </div>
     </p>
-    <h2>相关书籍</h2>
-    <div>
-        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">{{content.relateContentsDesc | safe}}（点击编辑）</a>
-    </div>
-    <h2>添加章节</h2>
-    <form action="{{ url_for('addChapter') }}" method=post class=add-entry>
-      <dl>
-        <dt>chapterName:
-        <dd><input type=text size=30 name=chapterName>
-        <dt>chapterStatus:
-        <dd><input type=text size=30 name=chapterStatus>
-        <dt>contentId:
-        <dd><input type=text size=30 name=contentId value="{{ content.contentId }}">
-        <dd><input type=submit value=ADD>
-      </dl>
-    </form>
+    <a href = "{{ url_for('deleteChapter', id = chapter.chapterId)}}"><h2>删除</h2></a>
   {% endif %}
-  <ul class=chapters>
-  {% for chapter in chapters %}
-    <li><h2><a href = "{{ url_for('showChapter', id = chapter.chapterId) }} ">{{ chapter.chapterName | safe }}</h2></li>
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
-  {% endfor %}
-  </ul>
 {% endblock %}

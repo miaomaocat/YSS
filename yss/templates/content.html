@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1>编辑书籍</h1>
 <h2><a href="{{ url_for('showContents') }} ">回到书籍列表</a></h2>
   {% if session.logged_in %}
     <p>
     <div>
-        <h2>内容信息</h2>
+        <a href="{{ url_for('editContentInfo', id = content.contentId) }}"><h2>内容信息</h2></a>
         <ul class=chapters>
             <li><span>名称：</span><span>{{ content.name | safe }}</span></li>
             <li><span>作者：</span><span>{{ content.author | safe }}</span></li>
@@ -16,7 +15,7 @@
     </p>
     <h2>相关书籍</h2>
     <div>
-        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">{{content.relateContentsDesc | safe}}（点击编辑）</a>
+        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">{{content.relateContentsDesc | safe}}（点击编辑相关书籍）</a>
     </div>
     <h2>添加章节</h2>
     <form action="{{ url_for('addChapter') }}" method=post class=add-entry>
@@ -27,7 +26,7 @@
         <dd><input type=text size=30 name=chapterStatus>
         <dt>contentId:
         <dd><input type=text size=30 name=contentId value="{{ content.contentId }}">
-        <dd><input type=submit value=ADD>
+        <dd><input type=submit value="添加">
       </dl>
     </form>
   {% endif %}
@@ -38,4 +37,5 @@
     <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}
   </ul>
+  <a href = "{{ url_for('deleteContent', id = content.contentId)}}"><h2>删除</h2></a>
 {% endblock %}

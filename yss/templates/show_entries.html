@@ -24,7 +24,7 @@
     <li><h2><a href="{{ url_for('showContent', id = entry.contentId) }} ">{{ entry.name }}</a></h2>
         {{ entry.desc|safe }}
   {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
+    <li><em>还没有书籍</em>
   {% endfor %}
   </ul>
 {% endblock %}

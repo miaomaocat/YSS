@@ -20,12 +20,11 @@
     <h2>添加章节</h2>
     <form action="{{ url_for('addChapter') }}" method=post class=add-entry>
       <dl>
-        <dt>chapterName:
+        <dt>章节名称:
         <dd><input type=text size=30 name=chapterName>
-        <dt>chapterStatus:
+        <dt>章节状态:
         <dd><input type=text size=30 name=chapterStatus>
-        <dt>contentId:
-        <dd><input type=text size=30 name=contentId value="{{ content.contentId }}">
+        <dd><input style="display:none;"  type=text size=30 name=contentId value="{{ content.contentId }}">
         <dd><input type=submit value="添加">
       </dl>
     </form>
@@ -34,8 +33,8 @@
   {% for chapter in chapters %}
     <li><h2><a href = "{{ url_for('showChapter', id = chapter.chapterId) }} ">{{ chapter.chapterName | safe }}</h2></li>
   {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
+    <li><em>还没有添加章节</em>
   {% endfor %}
   </ul>
-  <a href = "{{ url_for('deleteContent', id = content.contentId)}}"><h2>删除</h2></a>
+  <a href = "{{ url_for('deleteContent', id = content.contentId)}}"><h2>删除书籍</h2></a>
 {% endblock %}

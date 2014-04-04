@@ -3,6 +3,9 @@ from yss.controller.Common import *
 
 @app.route('/')
 def showContents():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
     entries = Content.readFromDatabase()
     return render_template('show_entries.html', entries=entries)
 

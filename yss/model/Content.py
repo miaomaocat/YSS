@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from yss.model.BaseModel import *
+from yss.model.Chapter import *
 
 class Content(BaseModel):
 
@@ -60,6 +61,21 @@ class Content(BaseModel):
         sql = 'delete from contents where id = %d;' % self.contentId
         g.db.execute(sql)
         g.db.commit()
+
+
+    def jsondict(self):
+        _dict = obj2dict(self);
+        _chapters = Chapter.chaptersWithContentId(str(self.contentId))
+
+        chapters = []
+        for chapter in _chapters:
+            chapters.append(chapter.jsondict())
+
+        if len(chapters) > 0:
+            _dict['chapters'] = chapters
+
+        return _dict
+
 
     @staticmethod
     def contentWithId(contentId):

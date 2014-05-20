@@ -1,27 +1,35 @@
 # -*- coding: utf-8 -*-
-from yss import app
-from flask import Flask, request, session, g, redirect, url_for, \
-     abort, render_template, flash, jsonify
-import sqlite3
-from contextlib import closing
+from yss.controller.Common import *
+
 try:
     import simplejson as json
 except ImportError:
     import json
 
 #apis
-@app.route('/api/books')
-def show_books():
-    if not session.get('logged_in'):
-        abort(401)
-    cur = g.db.execute('select fileName, description, publish, author, length from books order by id desc')
-    entries = [dict(fileName=row[0], description=row[1], publish=row[2], author=row[3], length=row[4]) for row in cur.fetchall()]
-    return  jsonify(books = entries)
+@app.route('/api/contents')
+def show_contents():
+    contents = Content.readFromDatabase()
+    books = []
+    for content in contents:
+        books.append(content.jsondict())
 
-@app.route('/api/recomands')
-def show_recom():
-    if not session.get('logged_in'):
-        abort(401)
-    cur =  g.db.execute('select fileName, description, publish, author, length from books where id in (select bookId from recomandBooks) order by id desc')
-    entries = [dict(fileName=row[0], description=row[1], publish=row[2], author=row[3], length=row[4]) for row in cur.fetchall()]
-    return  jsonify(books = entries)
+    return  jsonify(books=books)
+
+@app.route('/api/content/<id>', methods=['GET'])
+def show_content(id=None):
+    content = Content.contentWithId(id)
+    return  jsonify(content.jsondict())
+
+@app.route('/api/collection/<id>', methods=['GET'])
+def show_collection(id=None):
+    collection = Collection.collectionWithId(id)
+    return  jsonify(collection.jsondict())
+
+@app.route('/api/collections')
+def show_collections():
+    collections = Collection.readFromDatabase()
+    entries = []
+    for collection in collections:
+        entries.append(collection.jsondict())
+    return  jsonify(collections = entries)

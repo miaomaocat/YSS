@@ -1,4 +1,5 @@
 from yss.model.BaseModel import *
+from yss.model.Content import *
 
 class Collection(BaseModel):
     queryString = 'select id, collectionName, collectionType, collectionImageUrl, contentList from collections'
@@ -39,6 +40,25 @@ class Collection(BaseModel):
         sql = 'delete from collections where id = %d;' % self.collectionId
         g.db.execute(sql)
         g.db.commit()
+
+    def jsondict(self):
+        _dict = obj2dict(self);
+        _dict.pop('contentList')
+
+        contentList = self.contentList
+        contentIds = contentList.split(',')
+        contents = list()
+
+        for id in contentIds:
+            if id != u'':
+                content = Content.contentWithId(id)
+                if content != None:
+                    contents.append(content.jsondict())
+
+        if len(contents) > 0:
+            _dict['contents'] = contents
+
+        return _dict
 
     @staticmethod
     def collectionWithId(collectionId):

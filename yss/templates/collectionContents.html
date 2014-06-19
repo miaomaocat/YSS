@@ -3,7 +3,9 @@
 <h2><a href="{{ url_for('showCollection', id = collection.collectionId) }} ">回到专题</a></h2>
 <form action="{{ url_for('showCotentsUnderCollection', id = id) }}" method=post class=add-entry>
   <br>
-  <input type=text size=60 name=collectionName value="{{ collection.name }}">
+  <span>专辑名: </span> <input type=text size=60 name=collectionName value="{{ collection.name }}">
+  </br>
+  <span>封面地址: </span> <input type=text size=60 name=imageUrl value="{{ collection.imageUrl }}">
   <br>
   <ul class=entries>
   {% for content in contents %}

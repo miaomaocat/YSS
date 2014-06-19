@@ -68,7 +68,9 @@ def showCotentsUnderCollection(id=None):
         collection = Collection.collectionWithId(id)
         form = request.form
         collectionName = form['collectionName']
+        imageUrl = form['imageUrl']
         collection.name = collectionName
+        collection.imageUrl = imageUrl
         relateItems = list()
         for k in form:
             if form[k] == 'on':

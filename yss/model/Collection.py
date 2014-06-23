@@ -2,13 +2,14 @@ from yss.model.BaseModel import *
 from yss.model.Content import *
 
 class Collection(BaseModel):
-    queryString = 'select id, collectionName, collectionType, collectionImageUrl, contentList from collections'
-    queryStringWithId = 'select id, collectionName, collectionType, collectionImageUrl, contentList from collections where id = \'%s\''
-    updateString = 'update collections set collectionName = ?, collectionType = ?, collectionImageUrl = ?, contentList = ? where id = ?'
-    insertString = 'insert into collections (collectionName, collectionType, collectionImageUrl, contentList) values (?, ?, ?, ?)'
+    queryString = 'select id, collectionName, collectionType, collectionImageUrl, contentList, collectionImageUrl2 from collections'
+    queryStringWithId = 'select id, collectionName, collectionType, collectionImageUrl, contentList, collectionImageUrl2 from collections where id = \'%s\''
+    updateString = 'update collections set collectionName = ?, collectionType = ?, collectionImageUrl = ?, contentList = ? , collectionImageUrl2 = ? where id = ?'
+    insertString = 'insert into collections (collectionName, collectionType, collectionImageUrl, contentList, collectionImageUrl2) values (?, ?, ?, ?, ?)'
 
     def __init__(self):
         self.imageUrl = ''
+        self.imageUrl2 = ''
         self.type = 0
         self.contentList =''
         pass
@@ -19,10 +20,12 @@ class Collection(BaseModel):
         self.type = row[2]
         self.imageUrl = row[3]
         self.contentList = row[4]
+        self.imageUrl2 = row[5]
 
     def setFromRequest(self):
         self.name = request.form['collectionName']
         self.imageUrl = request.form['imageUrl']
+        self.imageUrl2 = request.form['imageUrl2']
 
     def __repr__(self):
         return "--- <collection ('%s')>" % (self.name)
@@ -30,10 +33,10 @@ class Collection(BaseModel):
     def save (self):
         if hasattr(self, 'collectionId'):
             g.db.execute(Collection.updateString,
-                       [self.name, self.type, self.imageUrl, self.contentList, self.collectionId])
+                       [self.name, self.type, self.imageUrl, self.contentList, self.imageUrl2, self.collectionId])
         else:
             g.db.execute(Collection.insertString,
-                       [self.name, self.type, self.imageUrl, self.contentList])
+                       [self.name, self.type, self.imageUrl, self.contentList, self.imageUrl2])
         g.db.commit()
 
     def delete(self):

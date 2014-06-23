@@ -10,6 +10,7 @@ create table collections(
   collectionName text not null,
   collectionType integer,
   collectionImageUrl text,
+  collectionImageUrl2 text,
   contentList text
 );
 

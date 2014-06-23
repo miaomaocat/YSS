@@ -6,7 +6,9 @@
   <span>专辑名: </span> <input type=text size=60 name=collectionName value="{{ collection.name }}">
   </br>
   <span>封面地址: </span> <input type=text size=60 name=imageUrl value="{{ collection.imageUrl }}">
-  <br>
+  </br>
+  <span>封面地址2: </span> <input type=text size=60 name=imageUrl2 value="{{ collection.imageUrl2 }}">
+  </br>
   <ul class=entries>
   {% for content in contents %}
       {% if content.selected %}

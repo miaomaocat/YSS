@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<form action="{{ url_for('uploadPicture') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" value="上传" />
+</form>
+</br>
+
+{% for picture in pictures %}
+    <img src='{{ picture }}' width='200px'/>
+{% else %}
+{% endfor %}
+
+{% endblock %}

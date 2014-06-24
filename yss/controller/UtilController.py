@@ -2,8 +2,12 @@
 from yss.controller.Common import *
 from werkzeug.utils import secure_filename
 import os
+from os.path import basename, isdir
+from os import listdir
+
 
 UPLOAD_FOLDER = 'yss/static/Uploads'
+PICTURE_DIR = 'yss/static/Pictures'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
@@ -18,6 +22,31 @@ def download(chapterId=None):
     dir = os.path.join(dir, chapterId)
     dir = os.path.join(dir, chapterFileName)
     return redirect(url_for('static', filename=dir))
+
+@app.route('/pictures')
+def showPictures():
+    pictures = list()
+    for item in listdir(PICTURE_DIR):
+        pictureurl = '../static/Pictures/' + item;
+        pictures.append(pictureurl)
+
+    return render_template('pictures.html', pictures=pictures)
+
+
+@app.route('/uploadPicture', methods=['GET', 'POST'])
+def uploadPicture():
+    f = request.files['file']
+    fname = secure_filename(f.filename)
+
+    dir = PICTURE_DIR
+
+    # check dir
+    if not os.path.isdir(dir):
+        os.makedirs(dir)
+
+    dir = os.path.join(dir, fname)
+    f.save(dir)
+    return redirect(url_for('showPictures'))
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

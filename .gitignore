@@ -1,0 +1,7 @@
+.schema.sql.swp
+/venv
+static/
+flaskr.db
+yss/static/Uploads/
+*.pyc
+yss/__init__.pyc

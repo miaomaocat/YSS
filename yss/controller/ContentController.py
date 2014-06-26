@@ -1,13 +1,23 @@
 # -*- coding: utf-8 -*-
 from yss.controller.Common import *
 
-@app.route('/')
-def showContents():
+@app.route('/showcontent/<type>')
+def showContents(type=None):
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    entries = Content.readFromDatabase()
-    return render_template('show_entries.html', entries=entries)
+    contentName = u"书籍"
+    if type == BaseModel.content_type_book:
+        contentName = u"书籍"
+    elif type == BaseModel.content_type_music:
+        contentName = u"音乐"
+    else:
+        contentName = u"讲座"
+
+    print type
+    print contentName
+    entries = Content.readFromDatabaseWithType(type)
+    return render_template('show_entries.html', entries=entries, contentName=contentName, contentType=type)
 
 @app.route('/delete_content/<id>')
 def deleteContent(id=None):
@@ -62,7 +72,7 @@ def addContent():
     content.save();
 
     flash("item created")
-    return redirect(url_for('showContents'))
+    return redirect(url_for('showContents', type=content.type))
 
 @app.route('/relate_content/<id>', methods=['GET','POST'])
 def showRelateContent(id=None):
@@ -71,7 +81,7 @@ def showRelateContent(id=None):
         relateList = content.relatedContentList
         relateIds = relateList.split(',')
         print relateIds
-        entries = Content.readFromDatabase()
+        entries = Content.readFromDatabaseWithType(content.type)
         for content in entries:
             print content.contentId
             contentId = "%s" % content.contentId
@@ -80,7 +90,7 @@ def showRelateContent(id=None):
             else:
                 content.selected = False
 
-        title = u"%s:相关书籍 %s" %  (content.name, id)
+        title = u"%s:相关内容 %s" %  (content.name, id)
         return render_template('relateContent.html',id=id, title=title, entries=entries)
     else:
         content = Content.contentWithId(id)

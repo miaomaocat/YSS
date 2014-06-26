@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<h2><a href="{{ url_for('showContents') }} ">回到书籍列表</a></h2>
+<h2><a href="{{ url_for('showContents', type=content.type) }} ">返回列表</a></h2>
   {% if session.logged_in %}
     <p>
     <div>
@@ -13,9 +13,9 @@
         </ul>
     </div>
     </p>
-    <h2>相关书籍</h2>
+    <h2>相关内容</h2>
     <div>
-        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">{{content.relateContentsDesc | safe}}（点击编辑相关书籍）</a>
+        <a href="{{ url_for('showRelateContent', id = content.contentId) }} ">{{content.relateContentsDesc | safe}}（点击编辑相关内容）</a>
     </div>
     <h2>添加章节</h2>
     <form action="{{ url_for('addChapter') }}" method=post class=add-entry>

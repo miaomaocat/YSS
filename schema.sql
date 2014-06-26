@@ -18,6 +18,7 @@ drop table if exists contents;
 create table contents(
   id integer primary key autoincrement,
   contentName text not null,
+  collectionType integer,
   description text not null,
   publish text not null,
   author text not null,

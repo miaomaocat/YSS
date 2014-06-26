@@ -11,6 +11,10 @@ PICTURE_DIR = 'yss/static/Pictures'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
+@app.route('/')
+def index():
+    return redirect(url_for('showContents', type=0))
+
 @app.route('/download/<chapterId>')
 def download(chapterId=None):
     chapter = Chapter.chapterWithId(chapterId)

@@ -9,6 +9,7 @@ class Content(BaseModel):
     def __init__(self):
         self.downloadCount = 0;
         self.relatedContentList = ""
+        self.type = BaseModel.content_type_book
 
 
     def setFromRequest(self):
@@ -29,6 +30,9 @@ class Content(BaseModel):
         if form.has_key('length'):
             self.length = request.form['length']
 
+        if form.has_key('type'):
+            self.type = request.form['type']
+
         # todo add this two feild
         self.downloadCount = 0;
         self.relatedContentList = ""
@@ -41,6 +45,7 @@ class Content(BaseModel):
         self.author = array[4]
         self.length = array[5]
         self.relatedContentList = array[6]
+        self.type = array[7]
         # todo add this feild
         self.downloadCount = 0;
 
@@ -50,11 +55,11 @@ class Content(BaseModel):
     def save (self):
         print "saved content"
         if hasattr(self, 'contentId'):
-            g.db.execute('update contents set contentName = ?, description = ?, publish = ?, author = ?, length = ?, downloadCount = ?, relatedContentList= ? where id = ?',
-                       [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList, self.contentId])
+            g.db.execute('update contents set contentName = ?, description = ?, publish = ?, author = ?, length = ?, downloadCount = ?, relatedContentList= ?, contentType = ? where id = ?',
+                       [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList, self.contentId, self.type])
         else:
-            g.db.execute('insert into contents (contentName, description, publish, author, length, downloadCount, relatedContentList) values (?, ?, ?, ?, ?, ?, ?)',
-                       [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList])
+            g.db.execute('insert into contents (contentName, description, publish, author, length, downloadCount, relatedContentList, contentType) values (?, ?, ?, ?, ?, ?, ?, ?)',
+                       [self.name, self.desc, self.publish, self.author, self.length, self.downloadCount, self.relatedContentList, self.type])
         g.db.commit()
 
     def delete(self):
@@ -79,7 +84,7 @@ class Content(BaseModel):
 
     @staticmethod
     def contentWithId(contentId):
-        query = 'select id, contentName, description, publish, author, length, relatedContentList from contents where id = \'' + contentId + '\' order by id desc'
+        query = 'select id, contentName, description, publish, author, length, relatedContentList, contentType from contents where id = \'' + contentId + '\' order by id desc'
         print query
         cur = g.db.execute(query)
         contents = list()
@@ -94,8 +99,20 @@ class Content(BaseModel):
             return None;
 
     @staticmethod
+    def readFromDatabaseWithType(contentType):
+        query = 'select id, contentName, description, publish, author, length, relatedContentList, contentType from contents where contentType = \'' + contentType + '\' order by id desc'
+        print query
+        cur = g.db.execute(query)
+        contents = list()
+        for row in cur.fetchall():
+            content = Content()
+            content.__setFromArray(row)
+            contents.append(content)
+        return contents;
+
+    @staticmethod
     def readFromDatabase():
-        query = 'select id, contentName, description, publish, author, length, relatedContentList  from contents order by id desc'
+        query = 'select id, contentName, description, publish, author, length, relatedContentList, contentType  from contents order by id desc'
         cur = g.db.execute(query)
         contents = list()
         for row in cur.fetchall():

@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
   {% if session.logged_in %}
-    <h2>添加书籍</h2>
+    <h2>添加{{contentName}}</h2>
     <form action="{{ url_for('addContent') }}" method=post class=add-entry>
       <dl>
-        <dt>书籍名:
+        <dt>{{contentName}}名:
         <dd><input type=text size=30 name=fileName>
         <dt>简介:
         <dd><textarea name=description rows=5 cols=40></textarea>
@@ -14,17 +14,19 @@
         <dd><input type=text size=30 name=author>
         <dt>时长:
         <dd><input type=text size=30 name=length>
+        <input type="hidden" name="type" value="{{ contentType | safe }}">
+
         <dd><input type=submit value='添加'>
       </dl>
     </form>
   {% endif %}
-  <h2>书籍列表</h2>
+  <h2>{{contentName}}列表</h2>
   <ul class=entries>
   {% for entry in entries %}
     <li><h2><a href="{{ url_for('showContent', id = entry.contentId) }} ">{{ entry.name }}</a></h2>
         {{ entry.desc|safe }}
   {% else %}
-    <li><em>还没有书籍</em>
+    <li><em>还没有{{contentName}}</em>
   {% endfor %}
   </ul>
 {% endblock %}

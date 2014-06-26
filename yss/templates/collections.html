@@ -6,6 +6,8 @@
       <dl>
         <dt>专题名:
         <dd><input type=text size=30 name=collectionName>
+        <dt>专题类型(0-书籍,1-音乐,2-讲座):
+        <dd><input type=text value=0 size=30 name=type>
         <dt>封面地址:
         <dd><input type=text size=30 name=imageUrl>
         <dt>封面地址2:
@@ -18,7 +20,7 @@
   <ul class=entries>
   {% for collection in collections %}
     <li>
-        <h2><a href="{{ url_for('showCollection', id=collection.collectionId) }}">{{ collection.name }}</a></h2>
+        <h2><a href="{{ url_for('showCollection', id=collection.collectionId) }}">{{ collection.name }} ({{ collection.typeName() }})</a></h2>
         <img src='{{ collection.imageUrl }}' width='200px' height = '200px'/>
         </br>
         <img src='{{ collection.imageUrl2 }}' width = '200px' height = '100px'/>

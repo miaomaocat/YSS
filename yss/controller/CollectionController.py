@@ -51,11 +51,11 @@ def showCotentsUnderCollection(id=None):
         abort(401)
     if request.method == 'GET':
         collection = Collection.collectionWithId(id)
-        contents = Content.readFromDatabase()
+
+        contents = Content.readFromDatabaseWithType(str(collection.type))
         contentList = collection.contentList
         relateIds = contentList.split(',')
 
-        contents = Content.readFromDatabase()
         for content in contents:
             contentId = "%s" % content.contentId
             if contentId in relateIds:

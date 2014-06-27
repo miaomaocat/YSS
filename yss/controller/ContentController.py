@@ -15,7 +15,6 @@ def showContents(type=None):
         contentName = u"讲座"
 
     print type
-    print contentName
     entries = Content.readFromDatabaseWithType(type)
     return render_template('show_entries.html', entries=entries, contentName=contentName, contentType=type)
 

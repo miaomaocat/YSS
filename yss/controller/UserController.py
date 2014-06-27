@@ -15,7 +15,7 @@ def login():
             session['logged_in'] = True
             session['user_name'] = request.form['username']
             flash('You were logged in')
-            return redirect(url_for('showContents'))
+            return redirect(url_for('showContents', type=0))
     return render_template('login.html', error=error)
 
 @app.route('/register', methods=['GET', 'POST'])

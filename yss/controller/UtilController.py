@@ -6,8 +6,8 @@ from os.path import basename, isdir
 from os import listdir
 
 
-UPLOAD_FOLDER = 'yss/static/Uploads'
-PICTURE_DIR = 'yss/static/Pictures'
+UPLOAD_FOLDER = '/var/www/YSSApp/yss/static/Uploads'
+PICTURE_DIR = '/var/www/YSSApp/yss/static/Pictures'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 

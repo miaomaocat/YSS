@@ -8,6 +8,7 @@ try:
 except ImportError:
     import json
 
+
 # config
 DATABASE = 'flaskr.db'
 DEBUG = True

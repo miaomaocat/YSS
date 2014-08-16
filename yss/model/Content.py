@@ -100,7 +100,7 @@ class Content(BaseModel):
 
     @staticmethod
     def readFromDatabaseWithType(contentType):
-        query = 'select id, contentName, description, publish, author, length, relatedContentList, contentType from contents where contentType = \'' + contentType + '\' order by id desc'
+        query = 'select id, contentName, description, publish, author, length, relatedContentList, contentType from contents where contentType = \'' + str(contentType) + '\' order by id desc'
         print query
         cur = g.db.execute(query)
         contents = list()
